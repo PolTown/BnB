@@ -19,6 +19,9 @@ class Auth extends CI_Controller
         case 2:
           redirect('profile');
           break;
+         /* case 3:
+            redirect('hrAdmin');
+              break; */
       }
     }
     // Login Page
@@ -58,6 +61,9 @@ class Auth extends CI_Controller
           case 2:
             redirect('profile');
             break;
+        /*  case 3:
+            redirect('hrAdmin');
+              break; */
         }
       } else {
         $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">

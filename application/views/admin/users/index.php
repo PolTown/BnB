@@ -27,10 +27,8 @@
                   <thead>
                     <tr>
                       <th>#</th>
-                      <th>EmpID</th>
                       <th>Employee</th>
-                      <th>Dept.ID</th>
-                      <th>Username</th>
+                      <th>Employee ID</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
@@ -42,9 +40,7 @@
                     ?>
                       <tr>
                         <td class=" align-middle"><?= $i++; ?></td>
-                        <td class=" align-middle"><?= $dt['e_id']; ?></td>
                         <td class=" align-middle"><?= $dt['e_name']; ?></td>
-                        <td class=" align-middle"><?= $dt['d_id']; ?></td>
                         <?php
                         if ($dt['u_username']) : ?>
                           <td class=" align-middle text-center">

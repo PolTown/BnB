@@ -255,6 +255,7 @@ class Master extends CI_Controller
     // Add Employee
     $d['title'] = 'Employee';
     $d['department'] = $this->db->get('department')->result_array();
+    $d['position'] = $this->db->get('position')->result_array();
     $d['shift'] = $this->db->get('shift')->result_array();
     $d['account'] = $this->Admin_model->getAdmin($this->session->userdata['username']);
 
@@ -280,7 +281,7 @@ class Master extends CI_Controller
   {
     $name = $this->input->post('e_name');
     $department = $this->input->post('d_id');
-    $position = $this->input->post('p_id');
+    $position = $this->input->post('p_rate');
     $email = $this->input->post('email');
     $gender = $this->input->post('e_gender');
     $birth_date = $this->input->post('e_birth_date');
@@ -362,7 +363,7 @@ class Master extends CI_Controller
     $this->form_validation->set_rules('e_hire_date', 'Hire Date', 'required|trim');
     $this->form_validation->set_rules('s_id', 'Shift', 'required|trim');
     $this->form_validation->set_rules('d_id', 'Department', 'required|trim');
-    $this ->form_validation->set_rules('p_id', 'Position', 'required | trim');
+    $this ->form_validation->set_rules('p_rate', 'Position', 'required | trim');
 
     if ($this->form_validation->run() == true) {
       $name = $this->input->post('e_name');
@@ -370,7 +371,7 @@ class Master extends CI_Controller
       $birth_date = $this->input->post('e_birth_date');
       $hire_date = $this->input->post('e_hire_date');
       $d_id = $this->input->post('d_id');
-      $p_id = $this->input->post('p_id');
+      $p_rate = $this->input->post('p_rate');
       $s_id = $this->input->post('s_id');
       if (!empty($_FILES['image']['tmp_name'])) {
         // Config Upload Image
@@ -405,7 +406,7 @@ class Master extends CI_Controller
         'department_id' => $d_id
       ];
       $position = [
-        'position_id' => $p_id
+        'position_id' => $p_rate
       ];
       $this->_editEmployee($e_id, $data, $department, $position);
     }
@@ -769,7 +770,7 @@ class Master extends CI_Controller
     $d['account'] = $this->Admin_model->getAdmin($this->session->userdata['username']);
 
     // Form Validation
-    $this->form_validation->set_rules('p_id','Position Name');
+    $this->form_validation->set_rules('p_rate','Position Name');
     $this->form_validation->set_rules('p_name', 'Position Name', 'required|trim');
 
     if ($this->form_validation->run() == true) {
@@ -785,11 +786,11 @@ class Master extends CI_Controller
   private function _addPosition()
   {
     $data = [
-      'id' => $this->input->post('p_id'),
+      'rate' => $this->input->post('p_rate'),
       'name' => $this->input->post('p_name')
     ];
 
-    $checkId = $this->db->get_where('position', ['id' => $data['id']])->num_rows();
+    $checkId = $this->db->get_where('position', ['id' => $data['rate']])->num_rows();
     if ($checkId > 0) {
       $this->session->set_flashdata('message', '<div class="alert alert-danger rounded-0 mb-2" role="alert">
       Failed to add, ID used!</div>');
@@ -797,18 +798,18 @@ class Master extends CI_Controller
       $this->db->insert('position', $data);
       $this->session->set_flashdata('message', '<div class="alert alert-success rounded-0 mb-2" role="alert">
         Successfully added a new position!</div>');
-      redirect('master/e_position/'.$this->input->post('p_id'));
+      redirect('master/e_position/'.$this->input->post('p_rate'));
     }
   }
 
-  public function e_position($p_id)
+  public function e_position($p_rate)
   {
     // Edit Department
     $d['title'] = 'Position';
-    $d['p_old'] = $this->db->get_where('position', ['id' => $p_id])->row_array();
+    $d['p_old'] = $this->db->get_where('position', ['rate' => $p_rate])->row_array();
     $d['account'] = $this->Admin_model->getAdmin($this->session->userdata['username']);
     // Form Validation
-    $this->form_validation->set_rules('p_id', 'Position Name');
+    $this->form_validation->set_rules('p_rate', 'Position Name');
 
     if ($this->form_validation->run() == false) {
       $this->load->view('templates/header', $d);
@@ -818,20 +819,20 @@ class Master extends CI_Controller
       $this->load->view('templates/footer');
     } else {
       $name = $this->input->post('p_name');
-      $this->_editPosition($p_id, $name);
+      $this->_editPosition($p_rate, $name);
     }
   }
-  private function _editPosition($p_id, $name)
+  private function _editPosition($p_rate, $name)
   {
     $data = ['name' => $name];
-    $this->db->update('position', $data, ['id' => $p_id]);
+    $this->db->update('position', $data, ['rate' => $p_rate]);
     $this->session->set_flashdata('message', '<div class="alert alert-success rounded-0 mb-2" role="alert">
         Successfully edited a position!</div>');
-    redirect('master/e_position/'.$p_id);
+    redirect('master/e_position/'.$p_rate);
   }
-  public function d_position($p_id)
+  public function d_position($p_rate)
   {
-    $this->db->delete('[position]', ['id' => $p_id]);
+    $this->db->delete('[position]', ['rate' => $p_rate]);
     $this->session->set_flashdata('message', '<div class="alert alert-success rounded-0 mb-2" role="alert">
         Successfully deleted a position!</div>');
     redirect('master');

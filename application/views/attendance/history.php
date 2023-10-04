@@ -60,8 +60,8 @@
               $i = 1;
               foreach ($data['attendance'] as $atd) :
               ?>
-                <tr <?php if date('l', $atd['date']) == 'Sunday'{
-                      echo "class ='bg-secondary text-white'";
+                <tr <?php if (date('l', $atd['date']) == 'Sunday') {
+                      echo "class='bg-secondary text-white'";
                     } ?>>
 
                   <!-- Column 1 -->
@@ -69,7 +69,7 @@
                   <?php
 
                   // if WEEKENDS
-                  if date('l', $atd['date']) == 'Sunday' : ?>
+                  if (date('l', $atd['date']) == 'Sunday') : ?>
                     <!-- Column 2 -->
                     <td colspan="6" class="text-center">OFF</td>
                   <?php
@@ -81,10 +81,10 @@
 
                     <!-- Column 3 (Shift) -->
                     <td>
-                     <div style="line-height:1em">
-                        <div class="text-xs"><?= date("h:i A", strtotime('2022-06-23 '.$atd['start'])) ?></div>
-                        <div class="text-xs"><?= date("h:i A", strtotime('2022-06-23 '.$atd['end'])) ?></div>
-                      </div>  
+                      <div style="line-height:1em">
+                        <div class="text-xs"><?= date("h:i A", strtotime('2022-06-23 ' . $atd['start'])) ?></div>
+                        <div class="text-xs"><?= date("h:i A", strtotime('2022-06-23 ' . $atd['end'])) ?></div>
+                      </div>
                     </td>
 
                     <!-- Column 4 (Time In) -->
@@ -103,7 +103,6 @@
 
                     <!-- Column 7 (Lack Of) -->
                     <td><?= $atd['lack_of']; ?></td>
-
 
                     <!-- Column 8 (In Status) -->
                     <td><?= $atd['in_status']; ?></td>

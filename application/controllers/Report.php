@@ -12,7 +12,7 @@ class Report extends CI_Controller
   }
   public function index()
   {
-    $d['title'] = 'Report';
+    $d['title'] = 'Attendance';
     $d['account'] = $this->Admin_model->getAdmin($this->session->userdata['username']);
     $d['department'] = $this->db->get('department')->result_array();
     $d['start'] = $this->input->get('start');
